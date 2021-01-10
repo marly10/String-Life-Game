@@ -125,14 +125,18 @@ public class GuessingGame extends VBox {
 
             //boolean expr to test if all the button are invisible, if they are set the win label on
             boolean pass = true;
+            int number = 0;
+
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    if (!(buttonArray[i][j].isVisible() == false)) {
-                        pass = false;
+                    Button newTemp = buttonArray[i][j];
+                    if (newTemp.isVisible() == false) {
+                        //pass = false;
+                        number++;
                     }
                 }
 
-                if (pass == true) {
+                if (number == 16) {
                     //set the text to you win
                     gameLabel.setText("You Win!");
                 }
