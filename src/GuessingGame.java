@@ -121,7 +121,7 @@ public class GuessingGame extends VBox {
 
             countMoves += countMoves;
 
-            System.out.println(countMoves + countMoves);
+           // System.out.println(countMoves + countMoves);
 
             //boolean expr to test if all the button are invisible, if they are set the win label on
             boolean pass = true;
@@ -142,6 +142,7 @@ public class GuessingGame extends VBox {
                 }
 
             }
+            System.out.println("Gone "+number);
         }
 
     } // gameButtonListener ends here

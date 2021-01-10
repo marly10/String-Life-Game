@@ -79,9 +79,9 @@ public class Main extends Application {
         //button text
         futureButton = new Button("Future Prediction Game(create)");
         mathButton = new Button("Math Game(workOn)");
-        guessingButton = new Button("Guessing Game(workOn)");
+        guessingButton = new Button("Guessing Game");
         codeButton = new Button("Code Game(create)");
-        aiButton = new Button("AI Game(workOn)");
+        aiButton = new Button("AI Game");
         moveButton = new Button("Move Game(create)");
         infoButton = new Button("How to play(create)");
 
