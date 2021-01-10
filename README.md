@@ -1,6 +1,6 @@
 # String-Life-Game
 
-<h2>**Home App**</h2>
+**Home App**
 <img src="gameImg/home.png" width="500" >
 
 <h2>**AI App-Before**</h2>
