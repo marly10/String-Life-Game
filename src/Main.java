@@ -16,6 +16,13 @@ import javafx.scene.Cursor;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 
 public class Main extends Application {
 
@@ -38,6 +45,8 @@ public class Main extends Application {
     //scenes used in the application
     Scene menu, guessGameScene, aiScene, userScene, mathScene, moveScene;
 
+    boolean state = true;
+
     //private final Canvas gameCanvas = new Canvas(800,600);
 
     //sets the menu in the program
@@ -57,12 +66,35 @@ public class Main extends Application {
 
     public static void main(String [] args)
     {
-       System.out.println("Hello World!");
+        //System.out.println("Hello World!");
         launch(args);
     }
 
+    private void playGame()
+    {
+        state = false;
+    }
 
     public void start(Stage primaryStage)  {
+
+        //reloads the apps
+        /*
+        System.out.println( "state is " + state );
+        playGame();
+        System.out.println( "state is " + state );
+
+        final Button restartButton = new Button( "Restart" );
+        restartButton.setOnAction( __ ->
+        {
+            System.out.println( "Restarting app!" );
+            primaryStage.close();
+            Platform.runLater( () -> new ReloadApp().start( new Stage() ) );
+        } );
+        primaryStage.setScene( new Scene( new StackPane( restartButton ) ) );
+        primaryStage.show();
+
+        */
+
 
         //arrayList of button
         this.gameButton = new ArrayList<Button>();
@@ -137,6 +169,10 @@ public class Main extends Application {
                 public void handle(MouseEvent me) {
                     menu.setCursor(Cursor.HAND);  //Change the cursor to a Hand
                     testText.setText("Close to Picking a game");
+                    if(loopButtonEnter == infoButton)
+                    {
+                        testText.setText("Information on the different Games");
+                    }
                     /*
                     Image math.image = new Image("batman.png");  //pass in the math.image path
                     scene.setCursor(new ImageCursor(math.image));
@@ -192,8 +228,9 @@ public class Main extends Application {
         moveGameH.getChildren().add(new MoveGameMain());
         backMove.setOnAction(new ButtonListener());
 
-
     }
+
+
 
     //handler for the buttons
     public class ButtonListener implements EventHandler<ActionEvent>

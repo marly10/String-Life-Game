@@ -59,6 +59,9 @@ public class GuessingGame extends VBox {
             }
         }
 
+        // create a alert
+        Alert a = new Alert(Alert.AlertType.NONE);
+
         //adding all the component in gridpane button to the rootBasepane
         rootBase.getChildren().add(paneForGameButton);
         //start adding elements created to the canvas
