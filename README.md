@@ -1,5 +1,4 @@
 # String-Life-Game
-
 <h2>Home App</h2>
 <img src="gameImg/home.png" width="500" >
 
@@ -14,6 +13,8 @@
 
 <h2>Guess Game-After</h2>
 <img src="gameImg/guessWon.png" width="500" >
+
+
 
 
 
