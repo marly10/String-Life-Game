@@ -33,7 +33,7 @@ public class Main extends Application {
     Stage theStage, otherStage;
 
     //buttons in Main(theStage)
-    Button futureButton, mathButton, guessingButton, codeButton, aiButton, moveButton, infoButton;
+    Button futureButton, mathButton, guessingButton, codeButton, aiButton, moveButton, infoButton, restartButton;
 
     //back buttons to each Scene
     Button backAI, backGuess, backMath, backMove;
@@ -77,24 +77,19 @@ public class Main extends Application {
 
     public void start(Stage primaryStage)  {
 
-        //reloads the apps
-        /*
+        //reloads the @runtime apps
         System.out.println( "state is " + state );
         playGame();
         System.out.println( "state is " + state );
 
-        final Button restartButton = new Button( "Restart" );
+        restartButton = new Button( "Restart Games" );
+
         restartButton.setOnAction( __ ->
         {
-            System.out.println( "Restarting app!" );
+            System.out.println( "Restarting apps!" );
             primaryStage.close();
-            Platform.runLater( () -> new ReloadApp().start( new Stage() ) );
-        } );
-        primaryStage.setScene( new Scene( new StackPane( restartButton ) ) );
-        primaryStage.show();
-
-        */
-
+            Platform.runLater(() -> new Main().start( new Stage() ) );
+        } );//reloads the @runtime apps(end)
 
         //arrayList of button
         this.gameButton = new ArrayList<Button>();
@@ -159,7 +154,7 @@ public class Main extends Application {
 
         //items added to the root
         root.getChildren().addAll(randomText, space1, subRandomText, space2);//text
-        root.getChildren().addAll(futureButton, mathButton, guessingButton, codeButton, aiButton, moveButton, infoButton);//button
+        root.getChildren().addAll(futureButton, mathButton, guessingButton, codeButton, aiButton, moveButton, infoButton, restartButton);//button
         root.getChildren().addAll(space3, testText);
 
         //if hovered over is on button changes to HAND
