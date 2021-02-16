@@ -1,3 +1,4 @@
+import huntGold.huntGoldMain;
 import math.MathGame;
 import move.*;
 
@@ -109,7 +110,7 @@ public class Main extends Application {
         guessingButton = new Button("Guessing Game");
         codeButton = new Button("Code Game(create)");
         aiButton = new Button("AI Game");
-        moveButton = new Button("Move Game(create)");
+        moveButton = new Button("Move Game(workOn)");
         infoButton = new Button("How to play(create)");
 
         //button back to menu
@@ -216,11 +217,11 @@ public class Main extends Application {
         aiGameH.getChildren().add(new AIGame());
         backAI.setOnAction(new ButtonListener());
 
-        //creating the canvas from other files(MoveGame.java)
+        //creating the canvas from other files(huntGoldMain.java)
         FlowPane moveGameH = new FlowPane();
-        moveScene = new Scene(moveGameH, 550, 400);
+        moveScene = new Scene(moveGameH, 500, 500);
         moveGameH.getChildren().add(backMove);
-        moveGameH.getChildren().add(new MoveGameMain());
+        moveGameH.getChildren().add(new huntGoldMain());
         backMove.setOnAction(new ButtonListener());
 
     }
