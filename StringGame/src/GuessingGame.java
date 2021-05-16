@@ -1,10 +1,18 @@
 import javafx.scene.layout.VBox;
+import java.util.*;
+import java.text.*;
+import java.io.*;
+import javafx.application.*;
 import javafx.event.*;
+import javafx.stage.*;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.*;
 import javafx.scene.*;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.animation.*;
 import javafx.scene.control.*;
+import javafx.scene.image.*;
 import javafx.geometry.*;
 
 public class GuessingGame extends VBox {
@@ -17,7 +25,6 @@ public class GuessingGame extends VBox {
     //2d array that holds the buttons
     Button[][] buttonArray;
     GridPane paneForGameButton;
-
 
     public GuessingGame()
     {
@@ -52,9 +59,6 @@ public class GuessingGame extends VBox {
             }
         }
 
-        // create a alert
-        Alert a = new Alert(Alert.AlertType.NONE);
-
         //adding all the component in gridpane button to the rootBasepane
         rootBase.getChildren().add(paneForGameButton);
         //start adding elements created to the canvas
@@ -69,9 +73,9 @@ public class GuessingGame extends VBox {
     public class gameButtonListener implements EventHandler < ActionEvent > {
 
         public void handle(ActionEvent event) {
-//looks for the math of each row and selects the even happening there that gets stored as an int
+//looks for the node of each row and selects the even happening there that gets stored as an int
             int row = paneForGameButton.getRowIndex((Node) event.getSource());
-            //looks for the math of each column and selects the even happening there that gets stored as an int
+            //looks for the node of each column and selects the even happening there that gets stored as an int
 
             int column = paneForGameButton.getColumnIndex((Node) event.getSource());
 
@@ -117,28 +121,23 @@ public class GuessingGame extends VBox {
 
             countMoves += countMoves;
 
-           // System.out.println(countMoves + countMoves);
+            System.out.println(countMoves + countMoves);
 
-            //boolean expr to test if all the button are invisible, if they are set the win label on
+            //booelan expr to test if all the button are invisible, if they are set the win label on
             boolean pass = true;
-            int number = 0;
-
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    Button newTemp = buttonArray[i][j];
-                    if (newTemp.isVisible() == false) {
-                        //pass = false;
-                        number++;
+                    if (!(buttonArray[i][j].isVisible() == false)) {
+                        pass = false;
                     }
                 }
 
-                if (number == 16) {
+                if (pass == true) {
                     //set the text to you win
                     gameLabel.setText("You Win!");
                 }
 
             }
-            System.out.println("Gone "+number);
         }
 
     } // gameButtonListener ends here

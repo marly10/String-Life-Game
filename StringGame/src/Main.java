@@ -1,5 +1,5 @@
-import huntGold.huntGoldMain;
-import math.MathGame;
+
+import javafx.scene.canvas.*;
 import javafx.scene.text.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
@@ -13,7 +13,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.stage.Stage;
 import java.util.ArrayList;
-import javafx.application.Platform;
 
 
 public class Main extends Application {
@@ -22,29 +21,36 @@ public class Main extends Application {
 
     VBox root = new VBox();
 
-    Stage theStage, otherStage;
+    Stage theStage;
 
-    //buttons in Main(theStage)
-    Button futureButton, mathButton, guessingButton, codeButton, aiButton, moveButton, infoButton, restartButton;
+    Button futureButton;
+    Button mathButton;
+    Button guessingButton;
+    Button codeButton;
+    Button aiButton;
+    Button bstButton;
+    Button infoButton;
 
-    //back buttons to each Scene
-    Button backAI, backGuess, backMath, backMove;
+    Button backAI, backGuess;
 
-    //labels used in main
-    Label randomText, subRandomText, space1, space2, space3;
+    Label randomText;
+    Label subRandomText;
+    Label space1;
+    Label space2;
+    Label space3;
 
     Text testText;
-    //scenes used in the application
-    Scene menu, guessGameScene, aiScene, userScene, mathScene, moveScene;
 
-    boolean state = true;
+    Scene menu;
+    Scene game;
+    Scene shopScene, guessGameScene, aiScene, userScene;
 
-    //private final Canvas gameCanvas = new Canvas(800,600);
+    private final Canvas gameCanvas = new Canvas(800,600);
 
     //sets the menu in the program
     public void setMenu(Stage stage)
     {
-        stage.setScene(menu);
+        stage.setScene(userScene);
         stage.setTitle("The String Game");
         stage.show();
     }
@@ -58,30 +64,12 @@ public class Main extends Application {
 
     public static void main(String [] args)
     {
-        //System.out.println("Hello World!");
+       System.out.println("Hello World!");
         launch(args);
     }
 
-    private void playGame()
-    {
-        state = false;
-    }
 
     public void start(Stage primaryStage)  {
-
-        //reloads the @runtime apps
-        System.out.println( "state is " + state );
-        playGame();
-        System.out.println( "state is " + state );
-
-        restartButton = new Button( "Restart Games" );
-
-        restartButton.setOnAction( __ ->
-        {
-            System.out.println( "Restarting apps!" );
-            primaryStage.close();
-            Platform.runLater(() -> new Main().start( new Stage() ) );
-        } );//reloads the @runtime apps(end)
 
         //arrayList of button
         this.gameButton = new ArrayList<Button>();
@@ -97,18 +85,15 @@ public class Main extends Application {
 
         //button text
         futureButton = new Button("Future Prediction Game(create)");
-        mathButton = new Button("Math Game(workOn)");
-        guessingButton = new Button("Guessing Game");
+        mathButton = new Button("Math Game(create)");
+        guessingButton = new Button("Guessing Game(workOn)");
         codeButton = new Button("Code Game(create)");
-        aiButton = new Button("AI Game");
-        moveButton = new Button("Move Game(workOn)");
+        aiButton = new Button("AI Game(workOn)");
+        bstButton = new Button("BST String to Integer Game");
         infoButton = new Button("How to play(create)");
 
-        //button back to menu
         backAI = new Button("Main Menu");
         backGuess = new Button("Main Menu");
-        backMath = new Button("Main Menu");
-        backMove = new Button("Main Menu");
 
         //add button to array of buttons
         this.gameButton.add(futureButton);
@@ -116,7 +101,7 @@ public class Main extends Application {
         this.gameButton.add(guessingButton);
         this.gameButton.add(codeButton);
         this.gameButton.add(aiButton);
-        this.gameButton.add(moveButton);
+        this.gameButton.add(bstButton);
         this.gameButton.add(infoButton);
 
 
@@ -137,16 +122,12 @@ public class Main extends Application {
 
         root.setAlignment(Pos.TOP_CENTER);
 
-        //add functionality to buttons on main!
-        mathButton.setOnAction(new ButtonListener());
         guessingButton.setOnAction(new ButtonListener());
         aiButton.setOnAction(new ButtonListener());
-        moveButton.setOnAction(new ButtonListener());
-
 
         //items added to the root
         root.getChildren().addAll(randomText, space1, subRandomText, space2);//text
-        root.getChildren().addAll(futureButton, mathButton, guessingButton, codeButton, aiButton, moveButton, infoButton, restartButton);//button
+        root.getChildren().addAll(futureButton, mathButton, guessingButton, codeButton, aiButton, bstButton, infoButton);//button
         root.getChildren().addAll(space3, testText);
 
         //if hovered over is on button changes to HAND
@@ -156,13 +137,9 @@ public class Main extends Application {
                 public void handle(MouseEvent me) {
                     menu.setCursor(Cursor.HAND);  //Change the cursor to a Hand
                     testText.setText("Close to Picking a game");
-                    if(loopButtonEnter == infoButton)
-                    {
-                        testText.setText("Information on the different Games");
-                    }
                     /*
-                    Image math.image = new Image("batman.png");  //pass in the math.image path
-                    scene.setCursor(new ImageCursor(math.image));
+                    Image image = new Image("batman.png");  //pass in the image path
+                    scene.setCursor(new ImageCursor(image));
                     */
                 }
             });
@@ -181,17 +158,34 @@ public class Main extends Application {
         menu = new Scene(root,800,600);
         setMenu(primaryStage);
 
-        //creating the canvas from other files(FuturePrediction.java) - ToBeMade
+        //creating the canvas from other files(user.java)
+        FlowPane userGameV = new FlowPane();
+        userGameV.getChildren().add(gameCanvas);
+        game = new Scene(userGameV, 500, 500);
 
-        //creating the canvas from other files(math.java)
-        FlowPane mathGameH = new FlowPane();
-        mathScene = new Scene(mathGameH, 670, 550);
-        mathGameH.getChildren().add(backMath);
-        backMath.setPrefSize(100,30);
-        mathGameH.getChildren().add(new MathGame());
-        backMath.setOnAction(new ButtonListener());
+        FlowPane userGameH = new FlowPane();
+        userScene = new Scene(userGameH, 670, 550);
+        //userGameH.getChildren().add(backGuess);
+        backGuess.setPrefSize(100,30);
+        userGameH.getChildren().add(new userInput());
+        //backGuess.setOnAction(new ButtonListener());
+
+        //creating the canvas from other files(AIGame.java)
+        FlowPane aiGameV = new FlowPane();
+        aiGameV.getChildren().add(gameCanvas);
+        game = new Scene(aiGameV, 800, 600);
+
+        FlowPane aiGameH = new FlowPane();
+        aiScene = new Scene(aiGameH, 550, 400);
+        aiGameH.getChildren().add(backAI);
+        aiGameH.getChildren().add(new AIGame());
+        backAI.setOnAction(new ButtonListener());
 
         //creating the canvas from other files(GuessingGame.java)
+        FlowPane guessGameV = new FlowPane();
+        guessGameV.getChildren().add(gameCanvas);
+        game = new Scene(guessGameV, 500, 500);
+
         FlowPane guessGameH = new FlowPane();
         guessGameScene = new Scene(guessGameH, 670, 550);
         guessGameH.getChildren().add(backGuess);
@@ -199,59 +193,25 @@ public class Main extends Application {
         guessGameH.getChildren().add(new GuessingGame());
         backGuess.setOnAction(new ButtonListener());
 
-        //creating the canvas from other files(CodeGame.java) - ToBeMade
-
-        //creating the canvas from other files(AIGame.java)
-        FlowPane aiGameH = new FlowPane();
-        aiScene = new Scene(aiGameH, 550, 400);
-        aiGameH.getChildren().add(backAI);
-        aiGameH.getChildren().add(new AIGame());
-        backAI.setOnAction(new ButtonListener());
-
-        //creating the canvas from other files(huntGoldMain.java)
-        FlowPane moveGameH = new FlowPane();
-        moveScene = new Scene(moveGameH, 500, 500);
-        moveGameH.getChildren().add(backMove);
-        moveGameH.getChildren().add(new huntGoldMain());
-        backMove.setOnAction(new ButtonListener());
-
     }
-
-
 
     //handler for the buttons
     public class ButtonListener implements EventHandler<ActionEvent>
     {
         public void handle(ActionEvent e)
         {
-            //guess scene
             if(e.getSource() == guessingButton)
             {
                 theStage.setScene(guessGameScene);
             }
 
-            //math scene
-            else if(e.getSource() == mathButton)
+            if(e.getSource() == aiButton)
             {
-                theStage.setScene(mathScene);
-            }
-
-            //AI scene
-            else if(e.getSource() == aiButton)
-            {
+                //setShop(aiScene);
                 theStage.setScene(aiScene);
             }
 
-            //Move scene
-            else if(e.getSource() == moveButton)
-            {
-                //MoveGameMain.getCanvas;
-                otherStage = theStage;
-                otherStage.setScene(moveScene);
-            }
-
-            //back buttom (Home Scene)
-            else if((e.getSource() == backAI) || (e.getSource() == backGuess) || (e.getSource() == backMath) || (e.getSource() == backMove))
+            if(e.getSource() == backAI || e.getSource() == backGuess)
             {
                 setMenu(theStage);
             }
@@ -264,7 +224,3 @@ public class Main extends Application {
         return gameButton;
     }
 }
-
-//adding comments to show change
-//bob please add new comments
-//this is for a presentation
