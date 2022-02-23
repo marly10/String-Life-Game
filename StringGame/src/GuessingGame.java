@@ -64,7 +64,7 @@ public class GuessingGame extends VBox {
         //start adding elements created to the canvas
         rootBase.getChildren().add(canvas);
 
-        //adds to root in Main.java
+        //adds to root in GcdMain.java
         getChildren().add(rootBase);
 
     }

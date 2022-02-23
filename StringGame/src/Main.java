@@ -92,8 +92,8 @@ public class Main extends Application {
         bstButton = new Button("BST String to Integer Game");
         infoButton = new Button("How to play(create)");
 
-        backAI = new Button("Main Menu");
-        backGuess = new Button("Main Menu");
+        backAI = new Button("GcdMain Menu");
+        backGuess = new Button("GcdMain Menu");
 
         //add button to array of buttons
         this.gameButton.add(futureButton);
