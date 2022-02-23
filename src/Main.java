@@ -1,5 +1,6 @@
 import huntGold.huntGoldMain;
 import math.MathGame;
+import gcdMath.GcdMain;
 import javafx.scene.text.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
@@ -12,7 +13,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
+
 import javafx.application.Platform;
 
 
@@ -24,64 +27,61 @@ public class Main extends Application {
 
     Stage theStage, otherStage;
 
-    //buttons in Main(theStage)
-    Button futureButton, mathButton, guessingButton, codeButton, aiButton, moveButton, infoButton, restartButton;
+    //buttons in GcdMain(theStage)
+    Button futureButton, mathButton, guessingButton, codeButton, aiButton, moveButton, infoButton, restartButton, gcdButton;
 
     //back buttons to each Scene
-    Button backAI, backGuess, backMath, backMove;
+    Button backAI, backGuess, backMath, backMove, backGcd;
 
     //labels used in main
     Label randomText, subRandomText, space1, space2, space3;
 
     Text testText;
     //scenes used in the application
-    Scene menu, guessGameScene, aiScene, userScene, mathScene, moveScene;
+    Scene menu, guessGameScene, aiScene, userScene, mathScene, moveScene, gcdScence;
 
     boolean state = true;
 
     //private final Canvas gameCanvas = new Canvas(800,600);
 
     //sets the menu in the program
-    public void setMenu(Stage stage)
-    {
+    public void setMenu(Stage stage) {
         stage.setScene(menu);
         stage.setTitle("The String Game");
         stage.show();
     }
 
     //sets the shop in the program
-    public void setShop(Stage stage)
-    {
+    public void setShop(Stage stage) {
         stage.setScene(userScene);
         stage.show();
     }
 
-    public static void main(String [] args)
-    {
+    public static void main(String[] args) {
         //System.out.println("Hello World!");
         launch(args);
     }
 
-    private void playGame()
-    {
+    private void playGame() {
         state = false;
     }
 
-    public void start(Stage primaryStage)  {
+    public void start(Stage primaryStage) {
 
         //reloads the @runtime apps
-        System.out.println( "state is " + state );
+        //all apps currently on the stack get reloaded
+        System.out.println("state is " + state);
         playGame();
-        System.out.println( "state is " + state );
+        System.out.println("state is " + state);
 
-        restartButton = new Button( "Restart Games" );
+        restartButton = new Button("Restart Games");
 
-        restartButton.setOnAction( __ ->
+        restartButton.setOnAction(__ ->
         {
-            System.out.println( "Restarting apps!" );
+            System.out.println("Restarting apps!");
             primaryStage.close();
-            Platform.runLater(() -> new Main().start( new Stage() ) );
-        } );//reloads the @runtime apps(end)
+            Platform.runLater(() -> new Main().start(new Stage()));
+        });//reloads the @runtime apps(end)
 
         //arrayList of button
         this.gameButton = new ArrayList<Button>();
@@ -101,7 +101,8 @@ public class Main extends Application {
         guessingButton = new Button("Guessing Game");
         codeButton = new Button("Code Game(create)");
         aiButton = new Button("AI Game");
-        moveButton = new Button("Move Game(workOn)");
+        moveButton = new Button("Move Game");
+        gcdButton = new Button("GCD Game");
         infoButton = new Button("How to play(create)");
 
         //button back to menu
@@ -109,6 +110,7 @@ public class Main extends Application {
         backGuess = new Button("Main Menu");
         backMath = new Button("Main Menu");
         backMove = new Button("Main Menu");
+        backGcd = new Button("Main Menu");
 
         //add button to array of buttons
         this.gameButton.add(futureButton);
@@ -118,21 +120,17 @@ public class Main extends Application {
         this.gameButton.add(aiButton);
         this.gameButton.add(moveButton);
         this.gameButton.add(infoButton);
+        this.gameButton.add(gcdButton);
 
 
         //label font
-        randomText.setFont(Font.font ("Verdana", 14));
-        subRandomText.setFont(Font.font ("Verdana", 14));
+        randomText.setFont(Font.font("Verdana", 14));
+        subRandomText.setFont(Font.font("Verdana", 14));
 
         //button font
-        for(Button setButtonFont : this.getGameButton()) {
-            setButtonFont.setFont(Font.font ("Verdana", 14));
-        }
-
-        //button @override size
-        for(Button setButtonSize : this.getGameButton()) {
-            setButtonSize.setPrefSize(250,30);
-            //setButtonSize.setPrefSize(230,30); use this one after completion
+        for (Button setButtonFont : this.getGameButton()) {
+            setButtonFont.setFont(Font.font("Verdana", 14));
+            setButtonFont.setPrefSize(250, 30);
         }
 
         root.setAlignment(Pos.TOP_CENTER);
@@ -142,22 +140,38 @@ public class Main extends Application {
         guessingButton.setOnAction(new ButtonListener());
         aiButton.setOnAction(new ButtonListener());
         moveButton.setOnAction(new ButtonListener());
+        gcdButton.setOnAction(new ButtonListener());
 
+        //arrayList of button
 
         //items added to the root
         root.getChildren().addAll(randomText, space1, subRandomText, space2);//text
-        root.getChildren().addAll(futureButton, mathButton, guessingButton, codeButton, aiButton, moveButton, infoButton, restartButton);//button
+        root.getChildren().addAll(futureButton, mathButton, guessingButton, codeButton, aiButton, moveButton, infoButton, gcdButton, restartButton);//button
         root.getChildren().addAll(space3, testText);
 
         //if hovered over is on button changes to HAND
-        for(Button loopButtonEnter : this.getGameButton())
-        {
+        for (Button loopButtonEnter : this.getGameButton()) {
             loopButtonEnter.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent me) {
                     menu.setCursor(Cursor.HAND);  //Change the cursor to a Hand
-                    testText.setText("Close to Picking a game");
-                    if(loopButtonEnter == infoButton)
-                    {
+
+                    if (loopButtonEnter == futureButton) {
+                        testText.setText("This Game Is about the Future!");
+                    } else if (loopButtonEnter == mathButton) {
+                        testText.setText("This Game is about Basic Math!");
+                    } else if (loopButtonEnter == guessingButton) {
+                        testText.setText("This Game is about Guessing the Right Boxes!");
+                    } else if (loopButtonEnter == codeButton) {
+                        testText.setText("This Game is about creating you own Game");
+                    } else if (loopButtonEnter == aiButton) {
+                        testText.setText("This Game is about playing VS and AI!");
+                    } else if (loopButtonEnter == moveButton) {
+                        testText.setText("This Game is about Finding the Box!");
+                    } else if (loopButtonEnter == restartButton) {
+                        testText.setText("This Button Restarts all the Games!");
+                    } else if (loopButtonEnter == gcdButton) {
+                        testText.setText("This Button Restarts all the Games!");
+                    } else {
                         testText.setText("Information on the different Games");
                     }
                     /*
@@ -168,7 +182,7 @@ public class Main extends Application {
             });
         }
         //if hovered over is on button changes to OPEN_HAND
-        for(Button loopButtonExit : this.getGameButton()) {
+        for (Button loopButtonExit : this.getGameButton()) {
             loopButtonExit.setOnMouseExited(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent me) {
                     menu.setCursor(Cursor.OPEN_HAND);  //Change the cursor to a OPEN_HAND
@@ -178,7 +192,7 @@ public class Main extends Application {
         }
 
         theStage = primaryStage;
-        menu = new Scene(root,800,600);
+        menu = new Scene(root, 800, 600);
         setMenu(primaryStage);
 
         //creating the canvas from other files(FuturePrediction.java) - ToBeMade
@@ -187,7 +201,7 @@ public class Main extends Application {
         FlowPane mathGameH = new FlowPane();
         mathScene = new Scene(mathGameH, 670, 550);
         mathGameH.getChildren().add(backMath);
-        backMath.setPrefSize(100,30);
+        backMath.setPrefSize(100, 30);
         mathGameH.getChildren().add(new MathGame());
         backMath.setOnAction(new ButtonListener());
 
@@ -195,7 +209,7 @@ public class Main extends Application {
         FlowPane guessGameH = new FlowPane();
         guessGameScene = new Scene(guessGameH, 670, 550);
         guessGameH.getChildren().add(backGuess);
-        backGuess.setPrefSize(100,30);
+        backGuess.setPrefSize(100, 30);
         guessGameH.getChildren().add(new GuessingGame());
         backGuess.setOnAction(new ButtonListener());
 
@@ -215,52 +229,55 @@ public class Main extends Application {
         moveGameH.getChildren().add(new huntGoldMain());
         backMove.setOnAction(new ButtonListener());
 
+        FlowPane gcdMathH = new FlowPane();
+        gcdScence = new Scene(gcdMathH, 500, 500);
+        gcdMathH.getChildren().add(backGcd);
+        gcdMathH.getChildren().add(new GcdMain());
+        backMove.setOnAction(new ButtonListener());
+
     }
 
 
-
     //handler for the buttons
-    public class ButtonListener implements EventHandler<ActionEvent>
-    {
-        public void handle(ActionEvent e)
-        {
+    public class ButtonListener implements EventHandler<ActionEvent> {
+        public void handle(ActionEvent e) {
             //guess scene
-            if(e.getSource() == guessingButton)
-            {
+            if (e.getSource() == guessingButton) {
                 theStage.setScene(guessGameScene);
             }
 
             //math scene
-            else if(e.getSource() == mathButton)
-            {
+            else if (e.getSource() == mathButton) {
                 theStage.setScene(mathScene);
             }
 
             //AI scene
-            else if(e.getSource() == aiButton)
-            {
+            else if (e.getSource() == aiButton) {
                 theStage.setScene(aiScene);
             }
+            //GCD scene
+            else if (e.getSource() == gcdButton) {
+                theStage.setScene(gcdScence);
+            }
+
 
             //Move scene
-            else if(e.getSource() == moveButton)
-            {
+            else if (e.getSource() == moveButton) {
                 //MoveGameMain.getCanvas;
                 otherStage = theStage;
                 otherStage.setScene(moveScene);
             }
 
-            //back buttom (Home Scene)
-            else if((e.getSource() == backAI) || (e.getSource() == backGuess) || (e.getSource() == backMath) || (e.getSource() == backMove))
-            {
+            //back button (Home Scene)
+            else if ((e.getSource() == backAI) || (e.getSource() == backGuess) ||
+                    (e.getSource() == backMath) || (e.getSource() == backMove) || (e.getSource() == backGcd)) {
                 setMenu(theStage);
             }
         }
     }
 
     //returns the button in ArrayList
-    public ArrayList<Button>getGameButton()
-    {
+    public ArrayList<Button> getGameButton() {
         return gameButton;
     }
 }
